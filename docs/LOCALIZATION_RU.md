@@ -43,3 +43,17 @@ Toast/Snackbar) и не использует `strings.xml`. Такой текс�
 Выносить его в ресурсы правкой `.kt`-файлов в форке нужно осознанно: каждая такая правка
 конфликтует при каждом слиянии upstream. Предпочтительный путь — предложить вынос
 строк в ресурсы в upstream, тогда новые строки придут уже в `values/strings.xml`.
+
+## Сборка APK на GitHub Actions
+
+Workflow **Russian Debug APK** (`.github/workflows/build-ru-debug-apk.yml`) собирает один вариант
+без секретов подписи, чтобы проверить русский язык на телефоне:
+
+1. GitHub → вкладка **Actions** → **Russian Debug APK** → **Run workflow**.
+2. Выберите ветку (`feature/russian-localization`) и бэкенд: `kotlin` (быстрее) или `python`.
+3. После завершения откройте запуск → **Artifacts** → скачайте архив с APK и `SHA256SUMS.txt`.
+
+APK подписан debug-ключом: он устанавливается на телефон, но не предназначен для публичной раздачи.
+Обновлять поверх такой сборки можно только сборкой с тем же debug-ключом. Для подписанных релизов
+используются существующие workflow (`Manual Test Build`, `Tagged Release`) и четыре секрета
+`KEYSTORE_FILE`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` в настройках репозитория.
